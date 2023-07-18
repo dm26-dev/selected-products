@@ -1,12 +1,33 @@
 .cont {
-  display: flex;
-  justify-content: space-between;
+  padding: 20px;
 
   &__products {
-    width: 70%;
-  }
+    display: flex;
+    justify-content: space-between;
 
-  &__product {
-    width: 30%;
+    & > :nth-child(1) {
+      width: 60%;
+    }
+    & > :nth-child(2) {
+      width: 40%;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .cont {
+    padding: 10px;
+
+    &__title {
+      text-align: center;
+    }
+
+    &__products {
+      flex-direction: column;
+
+      & > div {
+        width: 100% !important;
+      }
+    }
   }
 }

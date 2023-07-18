@@ -1,19 +1,6 @@
 import { createContext, useState, useContext } from 'react';
-import { ContextProducts, Product } from '../interfaces/Products';
+import { ContextProducts, stateProduct, stateProducts } from '../interfaces/Products';
 import { getProductRequest, getProductsRequest } from '../api/products';
-
-const initDate: Product = {
-  id: 2,
-  title: "",
-  price: 2,
-  description: "",
-  category: 'electronics',
-  image: "",
-  rating: {
-    count: 3,
-    rate: 3
-  }
-}
 
 export const ProductContext = createContext<ContextProducts | null>(null);
 
@@ -25,30 +12,36 @@ export const useProducts = () => {
 
 export const ProductsProvider = ({ children }: any) => {
 
-  const [products, setProducts] = useState<Product[]>([])
-  const [product, setProduct] = useState<Product>(initDate)
+  const [products, setProducts] = useState<stateProducts>({ loading: true, products: [], error: null })
+  const [product, setProduct] = useState<stateProduct>({ loading: true, product: null, error: null })
 
   const getProducts = async () => {
 
     try {
       const jsonData = await getProductsRequest()
-
-      console.log(jsonData)
-
-      setProducts(jsonData)
-      setProduct(jsonData[0])
+      setProducts({ loading: false, products: jsonData, error: null })
+      // setProduct(jsonData[0])
     } catch (error) {
-      setProducts([])
+      setProducts({ loading: false, products: [], error: "Ups algo salio mal" })
       console.log(error)
-      alert("Ups algo salio mal")
     }
 
   }
 
   const getProduct = async (id: number) => {
-    const jsonData = await getProductRequest(id)
-    setProduct(jsonData)
+
+    setProduct({ loading: true, product: null, error: null })
+
+    try {
+      const jsonData = await getProductRequest(id)
+      setProduct({ loading: false, product: jsonData, error: null })
+    } catch (error) {
+      setProduct({ loading: false, product: null, error: "Ups algo salio mal" })
+      console.log(error)
+    }
+
   }
+
 
   return (
     <ProductContext.Provider value={{ products, product, getProducts, getProduct }}>

@@ -16,8 +16,20 @@ export interface Rating {
 }
 
 export type ContextProducts = {
-    products: Product[],
-    product: Product | null,
+    products: stateProducts,
+    product: stateProduct,
     getProducts: () => Promise<void>
     getProduct: (id: number) => Promise<void>
+}
+
+export interface stateProducts {
+    loading: boolean,
+    products: Product[],
+    error: null | string
+}
+
+export interface stateProduct {
+    loading: boolean,
+    product: Product | null,
+    error: null | string
 }
