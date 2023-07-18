@@ -1,0 +1,12 @@
+.cont {
+  display: flex;
+  justify-content: space-between;
+
+  &__products {
+    width: 70%;
+  }
+
+  &__product {
+    width: 30%;
+  }
+}
